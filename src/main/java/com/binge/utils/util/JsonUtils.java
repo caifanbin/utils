@@ -2,6 +2,10 @@ package com.binge.utils.util;
 
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
 import java.io.*;
 import java.util.Map;
@@ -49,5 +53,16 @@ public class JsonUtils {
         }
         Map maps = (Map) JSON.parse(laststr);
         return maps;
+    }
+
+    /**
+     * 驼峰转下滑线json
+     * */
+    public static String toUnderlineJSONString(Object object) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String reqJson = mapper.writeValueAsString(object);
+        return reqJson;
     }
 }
